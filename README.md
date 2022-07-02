@@ -221,7 +221,217 @@ public void destroy()
 4. Read bean, use it 
 5. Dispose the object with the destroy method with destroy() method
 
-## Ways to invokw the LifeCycle methods:
+## Ways to invoke the LifeCycle methods:
 1. XML configuration
-2. Spring INterfaces
+
+```xml
+<bean class="com.javaTutoring.spring.lifecycle.xmlconfig.Patient" name="patient" p:id="123" init-method="hi" destroy-method="bye"/>
+```
+
+To enable the usage of the destroy method, use the AbstractApplicationContext interface:
+
+```java
+AbstractApplicationContext context = new ClassPathXmlApplicationContext("lifecyclewithxmlconfig.xml");
+context.registerShutdownHook();
+
+```
+
+2. Spring Interfaces
+
+The class need to implement 2 spring interfaces
+```java
+public class Patient implements InitializingBean, DisposableBean 
+```
+Te config file does not need the init and destroy methods attributes
+
 3. Annoatations
+
+Using the @PostConstruct and @PreDestroy annotations, in order to enable the @Predestroy annotation we have to configure the CommonAnnotationbeanPostProcessor bean:
+
+```xml
+<bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>
+```
+
+We can also enable the support all the annatations using:
+```xml
+
+<context:annotation-config/>
+```
+
+
+## Dependency checks methods
+
+We can use the @Required annotation, to do this is neccesary to enable the following bean:
+
+```xml
+<bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
+```
+
+## Inner Beans
+
+```xml
+<bean class="com.javaTutoring.spring.innerbeans.Employee" name="employee" p:id="123">
+		<property name="address">
+			<bean class="com.javaTutoring.spring.innerbeans.Address" p:hno="700" p:street="Washington St" p:city="Boston"/>
+
+		</property>
+
+	</bean>
+```
+
+
+## Bean Scopes
+
+1. Singleton: Default value
+    * It will create just one object
+2. Prototype
+    * Container will create different instances of the object every time for each usage of the instance
+3. Request
+    * Only relevant for SpringMVC applications, it will create an object-par request
+4. Session
+    * Only relevant for SpringMVC applications, create only one object for session
+5. Globalsession
+    * Container only will create a global par object. SpringMVC Portlets
+
+
+To change the scope of a bean you can add the property socpes in the bean tag:
+
+```xml
+<bean class="com.javaTutoring.spring.innerbeans.Employee" name="employee" p:id="123" scope="prototype">
+```
+
+
+## Constructor injection
+
+```xml
+<constructor-arg>
+    <value> b</value>
+</constructor-arg>
+
+<constructor-arg>
+    <ref bean="a"/>
+</constructor-arg>
+
+
+<constructor-arg>
+			<value>123</value>
+		</constructor-arg>
+		<constructor-arg>
+			<ref bean="address"/>
+		</constructor-arg>
+
+
+<constructor-arg value="123"/>
+		<constructor-arg ref="address"/>
+
+```
+
+For constructor injection it can be used a tag, an attribute and the C Schema
+
+Write the c schema:
+```xml
+xmlns:c="http://www.springframework.org/schema/c"
+```
+
+```xml
+<bean class="com.javaTutoring.spring.constructorinjection.Employee"
+		  name="employee" c:id="123" c:address-ref="address"/>
+```
+
+## Ambiguity problem can be fixed using
+* type
+* index
+* name
+
+## Bean Externalization 
+* database.properties
+    1. Create the properties file
+    2. link the properties
+    3. User properties in xml and inject
+
+
+## Wiring and Autowiring
+
+Autowiring 2 kinds:
+
+1. XML
+    * No()
+    * Type (Setter)
+    * Name (Setter)
+    * AutoDetect
+    * Constructor
+
+2. Annotations
+    * Autowired <br>
+        Can be used at the setter level or can be used at the property level or the constructor level.
+
+    * Qualifier <br>
+        Looks for the bean with an specific name. @QUalifier("address123")
+<br>
+
+### Assigment
+
+Setter Injection:
+
+*   Create a ShoppigCart  and inject item into the shopping  cart 
+    Item will have int id, string name, double price, int quantity.
+
+    Using setter injection.
+
+Constructor injection:
+*   Do the task above with constructor injection.
+
+
+Properties File
+
+*   Create a property file holding:
+    1.  Url
+    2.  userName
+    3.  password
+
+    Create a test class where  you can identify the properties are well injected.
+
+Autowiring
+
+*   Hotel Management:
+    1.  Customer -> Reservation
+    String name        Int id, String time
+
+
+
+
+## Standalone Collections
+
+*   Util Schema
+
+    1. Add the namespaces on the bean element:
+        ```xml
+        <util:CN CN-Class="" id="">
+        <util>
+            CN: Collection Name
+        ```     
+
+
+## Stereotype Annotations
+
+1.  @Component, the application can use specific bean names in the @Component annotation:
+
+```xml
+@Component()
+```
+
+2. @Scope, set the scope of the bean
+
+3. @Value:
+    *   Primitive types:
+        *   @Value("20")
+        *   @Value("Core Java")
+    
+    *   Collection Types:
+        *   util CN id="myList"
+        *   @Value("#{myList}")
+    
+    *   Object Types:
+        *   @Autowired
+
+## Spring Expression Language
