@@ -8,6 +8,8 @@ public class TestInstructor {
         ApplicationContext context = new ClassPathXmlApplicationContext("stereotypeannotationsconfig.xml");
         Instructor instructor = (Instructor) context.getBean("instructor");
         System.out.println(instructor);
+
+        System.out.println(5<6?"Is what I expect":"This is not what I expect");
     }
 
 }

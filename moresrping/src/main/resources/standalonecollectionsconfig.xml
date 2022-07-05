@@ -18,6 +18,25 @@
         <value>Motorolla Razon</value>
     </util:list>
 
+    <util:map id="myMap" map-class="java.util.HashMap" key-type="java-lang.String" value-type="java.lang.Integer">
+        <entry key="friend1" value="4000"/>
+        <entry key="friend2" value="5000"/>
+        <entry key="friend3" value="2000"/>
+    </util:map>
+
+    <util:set set-class="java.util.HashSet" value-type="java.lang.String">
+        <value>Kia</value>
+        <value>Lamborghini</value>
+        <value>Lexus</value>
+    </util:set>
+
+    <util:properties value-type="java.lang.String">
+        <prop key="Colombia">Bogota</prop>
+        <prop key="Argentina">Buenos Aires</prop>
+        <prop key="India">Deli</prop>
+
+    </util:properties>
+
     <bean class="org.pinal.tutoring.morespring.standalone.collections.ProductList" name="productList">
         <property name="productNames">
             <ref bean="productNames"/>

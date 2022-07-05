@@ -9,11 +9,19 @@ import java.util.List;
 @Component
 public class Instructor {
 
-    @Value("103")
+    //@Value("#{-52}")
+    //@Value("#{T(java.lang.Integer).MIN_VALUE}")
+    //@Value("#{T(java.lang.Math).abs(-65)}")
+    @Value("#{new Integer(23)}")
     private int id = 10;
 
-    @Value("Andres Cabezas")
+    //@Value("Andres Cabezas")
+    //@Value("#{'Andres'.toUpperCase()}")
     private String name = "Robert";
+
+    //@Value("#{4<9}")
+    @Value("#{3<1?false:true}")
+    private boolean isTeaching;
 
     @Value("#{topics}")
     private List<String> topics;
@@ -35,6 +43,7 @@ public class Instructor {
                 ", name='" + name + '\'' +
                 ", topics=" + topics +
                 ", profile=" + profile +
+                ", isTeaching=" + isTeaching +
                 '}';
     }
 }

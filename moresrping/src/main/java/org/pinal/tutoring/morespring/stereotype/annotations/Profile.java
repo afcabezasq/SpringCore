@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class Profile {
 
+    @Value("#{12+26}")
+    private int id;
+
     @Value("Andres and Company Limited")
     private String company;
 
@@ -15,6 +18,7 @@ public class Profile {
     @Override
     public String toString() {
         return "Profile{" +
+                "id=" + id + '\''+
                 "company='" + company + '\'' +
                 ", courseTitle='" + courseTitle + '\'' +
                 '}';
